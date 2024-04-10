@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http; // gli do un nome con as
+import 'dart:convert';
 
 void main() {
   runApp(const MyApp());
@@ -26,6 +28,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String? _errorNameText;
   TextEditingController ctrNome = TextEditingController();
+  String _risultato = "";
 
 
 
@@ -49,6 +52,8 @@ class _MyHomePageState extends State<MyHomePage> {
             controller: ctrNome,
             onSubmitted: (value){textSearchName();}
           ),
+          Visibility(child: Text(""),
+          )
 
         ],
       )
@@ -56,6 +61,28 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void textSearchName() {
-    print("a");
+    findBook();
+  }
+
+  Future findBook() async{
+
+    const dominio = 'makeup-api.herokuapp.com';
+    const percorsoFile = '/api/v1/products.json';
+
+    Map<String, dynamic> parametri = {'product_type': ctrNome.text}; //dynamic perchè non so che variabile passo
+    Uri uri = Uri.https(dominio, percorsoFile, parametri);
+    print(uri);
+    http.get(uri).then((result){
+      setState(() {
+        Text(result.body);
+      });
+
+      //setState(() {
+        //final libriMap = json.decode(result.body);
+        //final libriMapItems = libriMap['items'];
+        //print(result.body);
+
+        //libri = libriMapItems.map<Libro>((var libroMap) => Libro.fromMap(libroMap)).toList();});
+    });
   }
 }
