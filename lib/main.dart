@@ -74,6 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
     print(uri);
     http.get(uri).then((result){
       setState(() {
+        print("gay");
         Text(result.body);
       });
 
