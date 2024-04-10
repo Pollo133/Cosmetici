@@ -56,6 +56,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void textSearchName() {
-    print(" a");
+    print("a");
   }
 }
