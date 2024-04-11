@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http; // gli do un nome con as
 import 'dart:convert';
+import 'categoria.dart' as category;
 
 void main() {
   runApp(const MyApp());
@@ -26,9 +28,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String? _errorNameText;
-  TextEditingController ctrNome = TextEditingController();
-  String _risultato = "";
+  String? _errorResearchText;
+  TextEditingController ctrResearch = TextEditingController();
+  String _result = "";
+  bool isResearchValid= false;
+  late List<Category> categories;
 
 
 
@@ -42,40 +46,65 @@ class _MyHomePageState extends State<MyHomePage> {
             decoration: InputDecoration(
                 labelText: "Cerca cosmetico",
                 hintText: "Inseriesci il nome di un cosmetico",
-                errorText: _errorNameText,
+                errorText: _errorResearchText,
                 border: const OutlineInputBorder(),
                 prefixIcon: IconButton(
                     icon: new Icon(Icons.search),
                     onPressed: () { textSearchName();},
                 ),
             ),
-            controller: ctrNome,
+            controller: ctrResearch,
             onSubmitted: (value){textSearchName();}
           ),
-          Visibility(child: Text(""),
+          Visibility(visible: isResearchValid, child: Text(_result),),
+          SingleChildScrollView(
+            child: ListView.builder(
+              itemBuilder: (context, index){
+                return ListTile(
+                  leading: ,
+                )
+              },
+            )
           )
-
         ],
       )
     );
   }
 
   void textSearchName() {
-    findBook();
+    isResearchValid = true;
+
+    setState(() {
+      _errorResearchText = null;
+
+      if(ctrResearch.text.isEmpty){
+        isResearchValid = false;
+        _errorResearchText = "Tipo del prodotto non valido";
+        print("Prodotto non valido");
+      }
+      else{
+        isResearchValid = true;
+        findProduct();
+      }
+    });
   }
 
-  Future findBook() async{
+
+  Future findProduct() async{
 
     const dominio = 'makeup-api.herokuapp.com';
     const percorsoFile = '/api/v1/products.json';
 
-    Map<String, dynamic> parametri = {'product_type': ctrNome.text}; //dynamic perchè non so che variabile passo
+    Map<String, dynamic> parametri = {'product_type': ctrResearch.text}; //dynamic perchè non so che variabile passo
     Uri uri = Uri.https(dominio, percorsoFile, parametri);
     print(uri);
     http.get(uri).then((result){
       setState(() {
-        print("gay");
-        Text(result.body);
+        _result = result.body;
+        if(_result == "[]"){
+          isResearchValid = false;
+          _errorResearchText = "Tipo del prodotto non valido";
+        }
       });
 
       //setState(() {
@@ -86,4 +115,14 @@ class _MyHomePageState extends State<MyHomePage> {
         //libri = libriMapItems.map<Libro>((var libroMap) => Libro.fromMap(libroMap)).toList();});
     });
   }
+
+  void populateCategory(){
+    categories = [
+      imageLink : "https://img.alicdn.com/imgextra/i1/6000000003078/O1CN01quuyrl1YbldlylkVM_!!6000000003078-0-tbvideo.jpg"
+
+    ]
+    }
+
+  }
+
 }
