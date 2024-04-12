@@ -1,8 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http; // gli do un nome con as
-import 'dart:convert';
-import 'categoria.dart' as category;
+
+import 'categoria.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,14 +31,14 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController ctrResearch = TextEditingController();
   String _result = "";
   bool isResearchValid= false;
-  late List<Category> categories;
+  List<CategoryA> categories = [];
 
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Cosmetici", style: TextStyle(color: Colors.white)), backgroundColor: Colors.purple,),
+      appBar: AppBar(title: const Text("Cosmetici", style: TextStyle(color: Colors.white)), backgroundColor: Colors.purple,),
       body: Column(
         children: [
           TextField(
@@ -49,20 +48,25 @@ class _MyHomePageState extends State<MyHomePage> {
                 errorText: _errorResearchText,
                 border: const OutlineInputBorder(),
                 prefixIcon: IconButton(
-                    icon: new Icon(Icons.search),
+                    icon: const Icon(Icons.search),
                     onPressed: () { textSearchName();},
                 ),
             ),
             controller: ctrResearch,
             onSubmitted: (value){textSearchName();}
           ),
-          Visibility(visible: isResearchValid, child: Text(_result),),
-          SingleChildScrollView(
+          //Visibility(visible: isResearchValid, child: Text(_result),),
+          Expanded(
             child: ListView.builder(
-              itemBuilder: (context, index){
+              itemCount: categories.length,
+              itemBuilder: (BuildContext context, index){
+                //populateCategory();
                 return ListTile(
-                  leading: ,
-                )
+                  leading: Image.network("https://img.alicdn.com/imgextra/i1/6000000003078/O1CN01quuyrl1YbldlylkVM_!!6000000003078-0-tbvideo.jpg"),
+                  title: Text("PRova"),
+                  trailing: const Icon(Icons.add_circle),
+                  onTap: (){print("Ciao");}
+               );
               },
             )
           )
@@ -117,11 +121,18 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void populateCategory(){
-    categories = [
-      imageLink : "https://img.alicdn.com/imgextra/i1/6000000003078/O1CN01quuyrl1YbldlylkVM_!!6000000003078-0-tbvideo.jpg"
-
-    ]
-    }
+    categories.add(CategoryA("https://img.alicdn.com/imgextra/i1/6000000003078/O1CN01quuyrl1YbldlylkVM_!!6000000003078-0-tbvideo.jpg", " Blush"));
+    categories.add(CategoryA("https://cdn.mos.cms.futurecdn.net/whowhatwear/posts/298134/best-bronzer-for-fair-skin-298134-1645826297301-main.jpg?interlace=true&quality=70", "Bronzer"));
+    categories.add(CategoryA("https://www.thetimes.co.uk/imageserver/image/methode/sundaytimes/prod/web/bin/dd4e7a6e-2490-11e9-9ff0-49a5245b8995.jpg?crop=2667%2C1500%2C0%2C0", "Eyebrow"));
+    categories.add(CategoryA("https://i5.walmartimages.com/asr/72984064-a515-4d0f-8746-803fbaa6f8ed.ff3842fafc5ab8c4fe45c01bfafd72f8.jpeg", "Eyeliner"));
+    categories.add(CategoryA("https://images-na.ssl-images-amazon.com/images/I/81WEr65nPJL._SL1500_.jpg", "Eyeshadow"));
+    categories.add(CategoryA("https://i.notino.com/view/helena-rubinstein/hrusemw_kmup20__22.jpg", "Foundation"));
+    categories.add(CategoryA("https://ae01.alicdn.com/kf/HTB1jqhdoS_I8KJjy0Foq6yFnVXay/12pcs-Lot-Set-12-Colors-Professional-Lipliner-Makeup-Waterproof-Lip-Liner-Pencil-F905.jpg", "Lip liner"));
+    categories.add(CategoryA("https://keyassets-p2.timeincuk.net/wp/prod/wp-content/uploads/sites/57/2016/12/brave1.jpg", "Lipstick"));
+    categories.add(CategoryA("https://i5.walmartimages.com/asr/b2efa6b2-8a2b-4f66-9ced-16bfc4673cc8.3841b4860002757967cbdac3797fb49a.jpeg", "Mascara"));
+    categories.add(CategoryA("https://www.newbeauty.com/wp-content/uploads/2020/02/32710-OPI-1024x810.jpg", "Nail polish"));
+    print("FIne categorie");
+    print(categories);
 
   }
 
