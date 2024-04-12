@@ -37,6 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    populateCategory();
     return Scaffold(
       appBar: AppBar(title: const Text("Cosmetici", style: TextStyle(color: Colors.white)), backgroundColor: Colors.purple,),
       body: Column(
@@ -62,10 +63,17 @@ class _MyHomePageState extends State<MyHomePage> {
               itemBuilder: (BuildContext context, index){
                 //populateCategory();
                 return ListTile(
-                  leading: Image.network("https://img.alicdn.com/imgextra/i1/6000000003078/O1CN01quuyrl1YbldlylkVM_!!6000000003078-0-tbvideo.jpg"),
-                  title: Text("PRova"),
-                  trailing: const Icon(Icons.add_circle),
-                  onTap: (){print("Ciao");}
+                  leading: Image.network(categories[index].linkImage!),
+                  title: Text(categories[index].categoryName),
+                  //trailing: const Icon(Icons.category_outlined),
+                    onTap: () {
+                      Navigator.push( //permette di usare le freccette per andare e tornare
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ShowProducts(categories: categories[index]),
+                        ),
+                      );
+                    }
                );
               },
             )
@@ -121,6 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void populateCategory(){
+    categories.removeRange(0, categories.length);
     categories.add(CategoryA("https://img.alicdn.com/imgextra/i1/6000000003078/O1CN01quuyrl1YbldlylkVM_!!6000000003078-0-tbvideo.jpg", " Blush"));
     categories.add(CategoryA("https://cdn.mos.cms.futurecdn.net/whowhatwear/posts/298134/best-bronzer-for-fair-skin-298134-1645826297301-main.jpg?interlace=true&quality=70", "Bronzer"));
     categories.add(CategoryA("https://www.thetimes.co.uk/imageserver/image/methode/sundaytimes/prod/web/bin/dd4e7a6e-2490-11e9-9ff0-49a5245b8995.jpg?crop=2667%2C1500%2C0%2C0", "Eyebrow"));
@@ -131,8 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
     categories.add(CategoryA("https://keyassets-p2.timeincuk.net/wp/prod/wp-content/uploads/sites/57/2016/12/brave1.jpg", "Lipstick"));
     categories.add(CategoryA("https://i5.walmartimages.com/asr/b2efa6b2-8a2b-4f66-9ced-16bfc4673cc8.3841b4860002757967cbdac3797fb49a.jpeg", "Mascara"));
     categories.add(CategoryA("https://www.newbeauty.com/wp-content/uploads/2020/02/32710-OPI-1024x810.jpg", "Nail polish"));
-    print("FIne categorie");
-    print(categories);
+    //print(categories);
 
   }
 
