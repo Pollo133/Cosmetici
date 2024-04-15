@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'prodotto.dart';
@@ -33,6 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String _result = "";
   bool isResearchValid= false;
   List<CategoryA> categories = [];
+  List<Prodotto> products = [];
 
 
 
@@ -51,11 +54,31 @@ class _MyHomePageState extends State<MyHomePage> {
                 border: const OutlineInputBorder(),
                 prefixIcon: IconButton(
                   icon: const Icon(Icons.search),
-                  onPressed: () { textSearchName();},
+                  onPressed: () {
+                    textSearchName();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ShowProducts(
+                          categoria: ctrResearch.text,
+                        ),
+                      ),
+                    );
+                    },
                 ),
               ),
               controller: ctrResearch,
-              onSubmitted: (value){textSearchName();}
+              onSubmitted: (value){
+                textSearchName();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ShowProducts(
+                      categoria: ctrResearch.text,
+                    ),
+                  ),
+                );
+              }
           ),
           //Visibility(visible: isResearchValid, child: Text(_result),),
           Text(""),
@@ -72,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ShowProducts(
-                            prodotti: categories[index].prodotti,
+                            categoria: categories[index].categoryName,
                           ),
                         ),
                       );
@@ -84,15 +107,15 @@ class _MyHomePageState extends State<MyHomePage> {
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey),
                         borderRadius: BorderRadius.circular(8.0),),
-                      child: Row(children: [
+                      child: Row(children:    [
                         Image.network(categories[index].linkImage!, width: 80,height: 80),
                         SizedBox(width: 16),
                         Expanded(child:
                         Text(categories[index].categoryName, style: TextStyle(fontSize: 20),),),
                         IconButton(
-                          icon: const Icon(Icons.category_outlined),
+                          icon: const Icon(Icons.manage_search),
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(prodotti: categories[index].prodotti),),);},),
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(categoria: categories[index].categoryName),),);},),
                       ],),
                     ));
               },
@@ -136,16 +159,13 @@ class _MyHomePageState extends State<MyHomePage> {
         if(_result == "[]"){
           isResearchValid = false;
           _errorResearchText = "Prodotto non valido";
+          return;
         }
+
+        final productsMap = json.decode(result.body);
+        print(result.body);
+        products = productsMap.map<Prodotto>((var libroMap) => Prodotto.fromJson(libroMap)).toList();});
       });
-
-      //setState(() {
-      //final libriMap = json.decode(result.body);
-      //final libriMapItems = libriMap['items'];
-      //print(result.body);
-
-      //libri = libriMapItems.map<Libro>((var libroMap) => Libro.fromMap(libroMap)).toList();});
-    });
   }
 
   void populateCategory(){

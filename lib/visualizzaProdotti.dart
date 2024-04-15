@@ -1,12 +1,42 @@
-import 'package:cosmetici_2/prodotto.dart';
+import 'package:cosmetici/prodotto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'categoria.dart';
 import 'main.dart';
 
+class ShowProducts extends StatefulWidget{
+  const ShowProducts({super.key, required String categoria});
+
+  @override
+  State<ShowProducts> createState() => _ShowProductsState();
+
+}
+
+class _ShowProductsState extends State<ShowProducts>{
+
+  Widget build(BuildContext context) {
+
+    find
+
+
+
+    return Expanded(child: SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Scaffold(
+        appBar: AppBar(title: Text("Ciao")) ,
+        body: ,
+      ),
+    ));
+  }
+}
+
+
+
+
+/*
 class ShowProducts extends StatelessWidget{
-  ShowProducts({super.key, required this.prodotti});
-  List<Prodotto> prodotti = [];
+  ShowProducts({super.key, required String categoria});
+  List<Prodotto> products = [];
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,3 +76,10 @@ class ShowProducts extends StatelessWidget{
         ]));
 
   }}
+
+
+//button navigation bar flutter
+//segmented button flutter
+
+
+ */
