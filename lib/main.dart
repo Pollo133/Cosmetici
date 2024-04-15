@@ -34,6 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController ctrResearch = TextEditingController();
   String _result = "";
   bool isResearchValid= false;
+  String? productType;
   List<CategoryA> categories = [];
   List<Prodotto> products = [];
 
@@ -56,28 +57,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   icon: const Icon(Icons.search),
                   onPressed: () {
                     textSearchName();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ShowProducts(
-                          categoria: ctrResearch.text,
-                        ),
-                      ),
-                    );
-                    },
+                  },
                 ),
               ),
               controller: ctrResearch,
               onSubmitted: (value){
                 textSearchName();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ShowProducts(
-                      categoria: ctrResearch.text,
-                    ),
-                  ),
-                );
               }
           ),
           //Visibility(visible: isResearchValid, child: Text(_result),),
@@ -91,14 +76,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 //vedere se tenerla o lasciare solo icon
                 return GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ShowProducts(
-                            categoria: categories[index].categoryName,
-                          ),
-                        ),
-                      );
+                      productType = categories[index].categoryName.toLowerCase();
+                      findProduct();
                     },
                     //
                     child: Container(
@@ -107,15 +86,18 @@ class _MyHomePageState extends State<MyHomePage> {
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey),
                         borderRadius: BorderRadius.circular(8.0),),
-                      child: Row(children:    [
-                        Image.network(categories[index].linkImage!, width: 80,height: 80),
+                      child: Row(children:[
+                        Image.network(categories[index].linkImage!, height: 80, width: 80,),
                         SizedBox(width: 16),
                         Expanded(child:
                         Text(categories[index].categoryName, style: TextStyle(fontSize: 20),),),
                         IconButton(
                           icon: const Icon(Icons.manage_search),
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(categoria: categories[index].categoryName),),);},),
+                            productType = categories[index].categoryName.toLowerCase();
+                            findProduct();
+                          }
+                        )
                       ],),
                     ));
               },
@@ -139,6 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
       else{
         isResearchValid = true;
+        productType = ctrResearch.text;
         findProduct();
       }
     });
@@ -150,27 +133,38 @@ class _MyHomePageState extends State<MyHomePage> {
     const dominio = 'makeup-api.herokuapp.com';
     const percorsoFile = '/api/v1/products.json';
 
-    Map<String, dynamic> parametri = {'product_type': ctrResearch.text}; //dynamic perchè non so che variabile passo
+    Map<String, dynamic> parametri = {'product_type': productType}; //dynamic perchè non so che variabile passo
     Uri uri = Uri.https(dominio, percorsoFile, parametri);
     print(uri);
-    http.get(uri).then((result){
+    http.get(uri).then((result) {
       setState(() {
         _result = result.body;
-        if(_result == "[]"){
+        if (_result == "[]") {
           isResearchValid = false;
           _errorResearchText = "Prodotto non valido";
           return;
         }
 
-        final productsMap = json.decode(result.body);
-        print(result.body);
-        products = productsMap.map<Prodotto>((var libroMap) => Prodotto.fromJson(libroMap)).toList();});
+        //final productsMap = json.decode(result.body);
+        //print(result.body);
+        //products = productsMap.map<Prodotto>((var libroMap) => Prodotto.fromJson(libroMap)).toList();
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                ShowProducts(
+                    products: products
+                ),
+          ),
+        );
       });
+    });
   }
 
   void populateCategory(){
     categories.removeRange(0, categories.length);
-    categories.add(CategoryA("https://img.alicdn.com/imgextra/i1/6000000003078/O1CN01quuyrl1YbldlylkVM_!!6000000003078-0-tbvideo.jpg", " Blush"));
+    categories.add(CategoryA("https://img.alicdn.com/imgextra/i1/6000000003078/O1CN01quuyrl1YbldlylkVM_!!6000000003078-0-tbvideo.jpg", "Blush"));
     categories.add(CategoryA("https://cdn.mos.cms.futurecdn.net/whowhatwear/posts/298134/best-bronzer-for-fair-skin-298134-1645826297301-main.jpg?interlace=true&quality=70", "Bronzer"));
     categories.add(CategoryA("https://www.thetimes.co.uk/imageserver/image/methode/sundaytimes/prod/web/bin/dd4e7a6e-2490-11e9-9ff0-49a5245b8995.jpg?crop=2667%2C1500%2C0%2C0", "Eyebrow"));
     categories.add(CategoryA("https://i5.walmartimages.com/asr/72984064-a515-4d0f-8746-803fbaa6f8ed.ff3842fafc5ab8c4fe45c01bfafd72f8.jpeg", "Eyeliner"));

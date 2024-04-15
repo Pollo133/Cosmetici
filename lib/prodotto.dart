@@ -3,13 +3,12 @@ import 'colore.dart';
 class Prodotto{
   int? _id;
   String? _brand;
-  int? _price;
+  String? _price;
   String? _name;
   String? _priceSign;
   String? _imageLink;
   String? _productLink;
   String? _description;
-  double? _rating;
   String? _category;
   String? _productType;
   List<Colore> _colore = [];
@@ -23,14 +22,13 @@ class Prodotto{
       this._imageLink,
       this._productLink,
       this._description,
-      this._rating,
       this._category,
       this._productType,
       this._colore);
 
   Prodotto.fromJson(Map<String, dynamic> variabile){
     _id = variabile['id'];
-    print('id');
+    print(id);
     _brand = variabile['brand'];
     print(brand);
     _price= variabile['price'];
@@ -45,8 +43,6 @@ class Prodotto{
     print(productLink);
     _description= variabile['description'];
     print(description);
-    _rating= variabile['rating'];
-    print(rating);
     _category= variabile['category'];
     print(category);
     _productType= variabile['product_type'];
@@ -80,11 +76,6 @@ class Prodotto{
     _category = value;
   }
 
-  double get rating => _rating!;
-
-  set rating(double value) {
-    _rating = value;
-  }
 
   String get description => _description!;
 
@@ -110,9 +101,9 @@ class Prodotto{
     _priceSign = value;
   }
 
-  int get price => _price!;
+  String get price => _price!;
 
-  set price(int value) {
+  set price(String value) {
     _price = value;
   }
 
