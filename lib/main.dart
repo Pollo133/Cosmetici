@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http; // gli do un nome con as
-
+import 'package:http/http.dart' as http;
+import 'prodotto.dart';
+import 'visualizzaProdotti.dart';
 import 'categoria.dart';
 
 void main() {
@@ -12,9 +13,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(),
-      home: const MyHomePage()
+        title: 'Flutter Demo',
+        theme: ThemeData(),
+        home: const MyHomePage()
     );
   }
 }
@@ -43,43 +44,62 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         children: [
           TextField(
-            decoration: InputDecoration(
+              decoration: InputDecoration(
                 labelText: "Cerca cosmetico",
                 hintText: "Inseriesci il nome di un cosmetico",
                 errorText: _errorResearchText,
                 border: const OutlineInputBorder(),
                 prefixIcon: IconButton(
-                    icon: const Icon(Icons.search),
-                    onPressed: () { textSearchName();},
+                  icon: const Icon(Icons.search),
+                  onPressed: () { textSearchName();},
                 ),
-            ),
-            controller: ctrResearch,
-            onSubmitted: (value){textSearchName();}
+              ),
+              controller: ctrResearch,
+              onSubmitted: (value){textSearchName();}
           ),
           //Visibility(visible: isResearchValid, child: Text(_result),),
+          Text(""),
+          Text("CATEGORIES", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
           Expanded(
             child: ListView.builder(
               itemCount: categories.length,
               itemBuilder: (BuildContext context, index){
                 //populateCategory();
-                return ListTile(
-                  leading: Image.network(categories[index].linkImage!),
-                  title: Text(categories[index].categoryName),
-                  //trailing: const Icon(Icons.category_outlined),
+                //vedere se tenerla o lasciare solo icon
+                return GestureDetector(
                     onTap: () {
-                      Navigator.push( //permette di usare le freccette per andare e tornare
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ShowProducts(categories: categories[index]),
+                          builder: (context) => ShowProducts(
+                            prodotti: categories[index].prodotti,
+                          ),
                         ),
                       );
-                    }
-               );
+                    },
+                    //
+                    child: Container(
+                      padding: const EdgeInsets.all(10.0),
+                      margin: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 200.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(8.0),),
+                      child: Row(children: [
+                        Image.network(categories[index].linkImage!, width: 80,height: 80),
+                        SizedBox(width: 16),
+                        Expanded(child:
+                        Text(categories[index].categoryName, style: TextStyle(fontSize: 20),),),
+                        IconButton(
+                          icon: const Icon(Icons.category_outlined),
+                          onPressed: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(prodotti: categories[index].prodotti),),);},),
+                      ],),
+                    ));
               },
-            )
-          )
+            ),
+          ),
         ],
-      )
+      ),
     );
   }
 
@@ -91,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
       if(ctrResearch.text.isEmpty){
         isResearchValid = false;
-        _errorResearchText = "Tipo del prodotto non valido";
+        _errorResearchText = "Prodotto non valido";
         print("Prodotto non valido");
       }
       else{
@@ -115,16 +135,16 @@ class _MyHomePageState extends State<MyHomePage> {
         _result = result.body;
         if(_result == "[]"){
           isResearchValid = false;
-          _errorResearchText = "Tipo del prodotto non valido";
+          _errorResearchText = "Prodotto non valido";
         }
       });
 
       //setState(() {
-        //final libriMap = json.decode(result.body);
-        //final libriMapItems = libriMap['items'];
-        //print(result.body);
+      //final libriMap = json.decode(result.body);
+      //final libriMapItems = libriMap['items'];
+      //print(result.body);
 
-        //libri = libriMapItems.map<Libro>((var libroMap) => Libro.fromMap(libroMap)).toList();});
+      //libri = libriMapItems.map<Libro>((var libroMap) => Libro.fromMap(libroMap)).toList();});
     });
   }
 
