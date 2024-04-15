@@ -11,7 +11,7 @@ class Prodotto{
   String? _description;
   String? _category;
   String? _productType;
-  List<Colore> _colore = [];
+  List<Colore> _colori = [];
 
   Prodotto(
       this._name,
@@ -24,7 +24,7 @@ class Prodotto{
       this._description,
       this._category,
       this._productType,
-      this._colore);
+      this._colori);
 
   Prodotto.fromJson(Map<String, dynamic> variabile){
     _id = variabile['id'];
@@ -47,7 +47,7 @@ class Prodotto{
     print(category);
     _productType= variabile['product_type'];
     print(productType);
-    _colore= variabile['product_colors'];
+    _colori= variabile['product_colors'];
     print(colore);
 
   }
@@ -58,10 +58,10 @@ class Prodotto{
     _name = value;
   }
 
-  List<Colore> get colore => _colore;
+  List<Colore> get colore => _colori;
 
   set colore(List<Colore> value) {
-    _colore = value;
+    _colori = value;
   }
 
   String get productType => _productType!;

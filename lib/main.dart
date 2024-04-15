@@ -145,9 +145,9 @@ class _MyHomePageState extends State<MyHomePage> {
           return;
         }
 
-        //final productsMap = json.decode(result.body);
-        //print(result.body);
-        //products = productsMap.map<Prodotto>((var libroMap) => Prodotto.fromJson(libroMap)).toList();
+        final productsMap = json.decode(result.body);
+        print(result.body);
+        products = productsMap.map<Prodotto>((var libroMap) => Prodotto.fromJson(libroMap)).toList();
 
         Navigator.push(
           context,
