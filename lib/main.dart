@@ -1,3 +1,10 @@
+//prendere in input il nome del cosmetico da cercare e mandarlo alla pagina dedicata nel TextField
+//controllare perchè non carica i prodotti
+//implementare visualizzaProdotto
+// cercare di mantenere la searchBar e i filtri sempre, come un qualcosa di standard
+// controllare siti
+
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -40,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
 
+
   @override
   Widget build(BuildContext context) {
     populateCategory();
@@ -48,6 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         children: [
           TextField(
+
               decoration: InputDecoration(
                 labelText: "Cerca cosmetico",
                 hintText: "Inseriesci il nome di un cosmetico",
@@ -57,12 +66,19 @@ class _MyHomePageState extends State<MyHomePage> {
                   icon: const Icon(Icons.search),
                   onPressed: () {
                     textSearchName();
+                    if(isResearchValid == true){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(productType: productType)));
+                    }
                   },
                 ),
               ),
               controller: ctrResearch,
               onSubmitted: (value){
                 textSearchName();
+                if(isResearchValid == true){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(productType: productType)));
+                }
+
               }
           ),
           //Visibility(visible: isResearchValid, child: Text(_result),),
@@ -77,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 return GestureDetector(
                     onTap: () {
                       productType = categories[index].categoryName.toLowerCase();
-                      findProduct();
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(productType: productType)));
                     },
                     //
                     child: Container(
@@ -92,11 +108,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         Expanded(child:
                         Text(categories[index].categoryName, style: TextStyle(fontSize: 20),),),
                         IconButton(
-                          icon: const Icon(Icons.manage_search),
-                          onPressed: () {
-                            productType = categories[index].categoryName.toLowerCase();
-                            findProduct();
-                          }
+                            icon: const Icon(Icons.manage_search),
+                            onPressed: () {
+                              productType = categories[index].categoryName.toLowerCase();
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(productType: productType)));
+                            }
                         )
                       ],),
                     ));
@@ -122,42 +138,34 @@ class _MyHomePageState extends State<MyHomePage> {
       else{
         isResearchValid = true;
         productType = ctrResearch.text;
-        findProduct();
+        findProductctr();
       }
     });
   }
 
 
-  Future findProduct() async{
+  Future findProductctr() async{
 
     const dominio = 'makeup-api.herokuapp.com';
     const percorsoFile = '/api/v1/products.json';
 
-    Map<String, dynamic> parametri = {'product_type': productType}; //dynamic perchè non so che variabile passo
+    Map<String, dynamic> parametri = {'product_type': productType};
     Uri uri = Uri.https(dominio, percorsoFile, parametri);
-    print(uri);
+    //print(uri);
     http.get(uri).then((result) {
+      _result = result.body;
       setState(() {
-        _result = result.body;
         if (_result == "[]") {
           isResearchValid = false;
           _errorResearchText = "Prodotto non valido";
           return;
         }
-
-        final productsMap = json.decode(result.body);
-        print(result.body);
-        products = productsMap.map<Prodotto>((var libroMap) => Prodotto.fromJson(libroMap)).toList();
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) =>
-                ShowProducts(
-                    products: products
-                ),
-          ),
-        );
+        else
+          isResearchValid= true;
+        //print(result.body);
+        //products = productsMap.map<Prodotto>((var productMap) => Prodotto.fromJson(productMap)).toList();
+        //this.products = products;
+        //Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(products: products),),);
       });
     });
   }
