@@ -66,18 +66,19 @@ class _MyHomePageState extends State<MyHomePage> {
                   icon: const Icon(Icons.search),
                   onPressed: () {
                     textSearchName();
-                    if(isResearchValid == true){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(productType: productType)));
-                    }
+
+                    /*if(isResearchValid == true){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(products: products)));
+                    }*/
                   },
                 ),
               ),
               controller: ctrResearch,
               onSubmitted: (value){
                 textSearchName();
-                if(isResearchValid == true){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(productType: productType)));
-                }
+                /*if(isResearchValid == true){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(products: products)));
+                }*/
 
               }
           ),
@@ -93,7 +94,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 return GestureDetector(
                     onTap: () {
                       productType = categories[index].categoryName.toLowerCase();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(productType: productType)));
+                      findProductctr();
+                      //Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(products: products)));
                     },
                     //
                     child: Container(
@@ -111,7 +113,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             icon: const Icon(Icons.manage_search),
                             onPressed: () {
                               productType = categories[index].categoryName.toLowerCase();
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(productType: productType)));
+                              findProductctr();
+                              //Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(products: products)));
                             }
                         )
                       ],),
@@ -163,9 +166,10 @@ class _MyHomePageState extends State<MyHomePage> {
         else
           isResearchValid= true;
         //print(result.body);
-        //products = productsMap.map<Prodotto>((var productMap) => Prodotto.fromJson(productMap)).toList();
-        //this.products = products;
-        //Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(products: products),),);
+        final productsMap = json.decode(result.body);
+        products = productsMap.map<Prodotto>((var productMap) => Prodotto.fromJson(productMap)).toList();
+        this.products = products;
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(products: products),),);
       });
     });
   }

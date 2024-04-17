@@ -5,20 +5,18 @@ class Prodotto{
   String? _brand;
   String? _price;
   String? _name;
-  String? _priceSign;
   String? _imageLink;
   String? _productLink;
   String? _description;
   String? _category;
   String? _productType;
-  List<Colore> _colori = [];
+  List<dynamic> _colori = [];
 
   Prodotto(
       this._name,
       this._id,
       this._brand,
       this._price,
-      this._priceSign,
       this._imageLink,
       this._productLink,
       this._description,
@@ -27,28 +25,26 @@ class Prodotto{
       this._colori);
 
   Prodotto.fromJson(Map<String, dynamic> variabile){
-    _id = variabile['id'];
-    print(id);
-    _brand = variabile['brand'];
-    print(brand);
-    _price= variabile['price'];
-    print(price);
-    _name = variabile['name'];
-    print(name);
-    _priceSign= variabile['price_sign'];
-    print(priceSign);
-    _imageLink= variabile['image_link'];
-    print(imageLink);
-    _productLink= variabile['product_link'];
-    print(productLink);
-    _description= variabile['description'];
-    print(description);
-    _category= variabile['category'];
-    print(category);
-    _productType= variabile['product_type'];
-    print(productType);
-    _colori= variabile['product_colors'];
-    print(colore);
+    _id = variabile['id']?? '';
+    //print(id);
+    _brand = variabile['brand'] ?? '';
+    //print(brand);
+    _price= variabile['price']?? '';
+    //print(price);
+    _name = variabile['name'] ?? '';
+    //print(name);
+    _imageLink= variabile['image_link'] ?? 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg';
+    //print(imageLink);
+    _productLink= variabile['product_link']?? '';
+    //print(productLink);
+    _description= variabile['description']?? '';
+    //print(description);
+    _category= variabile['category'] ??'';
+    //print(category);
+    _productType= variabile['product_type']??'';
+    //print(productType);
+    _colori= variabile['product_colors']??'';
+    //print(colore);
 
   }
 
@@ -58,9 +54,9 @@ class Prodotto{
     _name = value;
   }
 
-  List<Colore> get colore => _colori;
+  List<dynamic> get colore => _colori;
 
-  set colore(List<Colore> value) {
+  set colore(List<dynamic> value) {
     _colori = value;
   }
 
@@ -93,12 +89,6 @@ class Prodotto{
 
   set imageLink(String value) {
     _imageLink = value;
-  }
-
-  String get priceSign => _priceSign!;
-
-  set priceSign(String value) {
-    _priceSign = value;
   }
 
   String get price => _price!;
