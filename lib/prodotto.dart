@@ -10,7 +10,7 @@ class Prodotto{
   String? _description;
   String? _category;
   String? _productType;
-  List<dynamic> _colori = [];
+  List<String> _colori = [];
 
   Prodotto(
       this._name,
@@ -44,9 +44,12 @@ class Prodotto{
     //print(category);
     _productType= variabile['product_type']??'';
     //print(productType);
-    _colori = variabile["product_colors"]?[0]?["hex_value"]??"";
-    //print(colori);
-
+    if (variabile["product_colors"] is List) {
+      _colori = variabile["product_colors"].map<String>((color) => color["hex_value"].toString()).toList();
+    }
+    else if (variabile["product_colors"] is String) {
+      _colori.add(variabile["product_colors"]);
+    }
   }
 
   String get name => _name!;
@@ -55,9 +58,9 @@ class Prodotto{
     _name = value;
   }
 
-  List<dynamic> get colori => _colori;
+  List<String> get colori => _colori;
 
-  set colori(List<dynamic> value) {
+  set colori(List<String> value) {
     _colori = value;
   }
 
