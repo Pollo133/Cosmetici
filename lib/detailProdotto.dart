@@ -26,66 +26,35 @@ class ShowDetails extends StatelessWidget{
                   SizedBox(height: 10),
                   Image.network(product.imageLink),
                   SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20),
-                          boxShadow:[ BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 3,
-                            blurRadius: 10,
-                            offset: Offset(0, 3),)],),
-                        child: Icon(CupertinoIcons.minus, size: 18),
-                      ),
-                      Container(margin: EdgeInsets.symmetric(horizontal:10 ),
-                        child: Text("01", style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold
-                        ),),),
-                      Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20),
-                          boxShadow:[ BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 3,
-                            blurRadius: 10,
-                            offset: Offset(0, 3),)],),
-                        child: Icon(CupertinoIcons.plus, size: 18),
-                      ),
-
-                    ],
-                  ),
-
-
                   Padding(padding: EdgeInsets.symmetric(vertical: 12),
                     child: Text(product.description, textAlign: TextAlign.justify, style: TextStyle(fontSize: 17),),),
                   Padding(padding: EdgeInsets.symmetric(vertical: 8),
                     child: Row(
                       children: [
-                        for(int i=0; i<product.colore.length; i++)
-                          Text("Color: ", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,),),
+                        Text("Color: ", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,),),
                         SizedBox(width: 10,),
                         Row(children: [
-                          Container(
-                            height: 30,
-                            width: 30,
-                            alignment: Alignment.center,
-                            margin: EdgeInsets.symmetric(horizontal: 5),
-                            decoration: BoxDecoration(
-                              //color: hexToColor(product.colore[i]),
-                                color: Colors.blue,
-                                borderRadius: BorderRadius.circular(30),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 2,
-                                      blurRadius: 8
-                                  )
-                                ]
-                            ),
+                          for(int i=0; i<product.colori.length; i++)
+                            Container(
+                              height: 30,
+                              width: 30,
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.symmetric(horizontal: 5),
+                              decoration: BoxDecoration(
+                                  color: hexToColor(product.colori[i]),
+                                  //color: Colors.blue,
+                                  borderRadius: BorderRadius.circular(30),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 2,
+                                        blurRadius: 8
+                                    )
+                                  ]
+                              ),
 
 
-                          ),
+                            )
 
                         ],)
                       ],

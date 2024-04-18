@@ -25,11 +25,12 @@ class Prodotto{
       this._colori);
 
   Prodotto.fromJson(Map<String, dynamic> variabile){
+    _colori.removeRange(0, _colori.length);
     _id = variabile['id']?? '';
     //print(id);
     _brand = variabile['brand'] ?? '';
     //print(brand);
-    _price= variabile['price']?? '';
+    _price= variabile['price']?? 'unavailable';
     //print(price);
     _name = variabile['name'] ?? '';
     //print(name);
@@ -43,8 +44,8 @@ class Prodotto{
     //print(category);
     _productType= variabile['product_type']??'';
     //print(productType);
-    _colori= variabile['product_colors']??'';
-    //print(colore);
+    _colori = variabile["product_colors"]?[0]?["hex_value"]??"";
+    //print(colori);
 
   }
 
@@ -54,9 +55,9 @@ class Prodotto{
     _name = value;
   }
 
-  List<dynamic> get colore => _colori;
+  List<dynamic> get colori => _colori;
 
-  set colore(List<dynamic> value) {
+  set colori(List<dynamic> value) {
     _colori = value;
   }
 
@@ -108,6 +109,7 @@ class Prodotto{
   set id(int value) {
     _id = value;
   }
+
 }
 
 
