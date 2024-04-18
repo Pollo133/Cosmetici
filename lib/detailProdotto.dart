@@ -56,6 +56,7 @@ class ShowDetails extends StatelessWidget{
                     ],
                   ),
 
+
                   Padding(padding: EdgeInsets.symmetric(vertical: 12),
                     child: Text(product.description, textAlign: TextAlign.justify, style: TextStyle(fontSize: 17),),),
                   Padding(padding: EdgeInsets.symmetric(vertical: 8),
