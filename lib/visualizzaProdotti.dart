@@ -1,8 +1,9 @@
-import 'package:cosmetici_2/prodotto.dart';
+import 'package:cosmetici/prodotto.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'detailProdotto.dart';
+import 'productItem.dart';
 
 
 class ShowProducts extends StatelessWidget{
@@ -39,58 +40,6 @@ class ShowProducts extends StatelessWidget{
     );
   }
 }
-class ProductItem extends StatelessWidget {
-  final Prodotto product;
-
-  ProductItem({required this.product});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 5.0,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          // Product image
-          Container(
-            height: 150.0, // Altezza dell'immagine
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: NetworkImage(product.imageLink),
-                fit: BoxFit.cover,
-              ),
-              borderRadius: BorderRadius.circular(4.0),
-            ),
-          ),
-          SizedBox(height: 8.0),
-          // Product name
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              product.name,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16.0,
-              ),
-            ),
-          ),
-          SizedBox(height: 4.0),
-          // Product category
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              'Category: ${product.category}',
-              style: TextStyle(
-                color: Colors.grey,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 
 //button navigation bar flutter
 //segmented button flutter
@@ -117,83 +66,3 @@ class ProductItem extends StatelessWidget {
 
   });
 }*/
-/*
-return Scaffold(
-      appBar: AppBar(title: Text("Prodotti Lista", style: TextStyle(color: Colors.white)), backgroundColor: Colors.purple,),
-      body:
-ListView.builder(
-itemCount: products.length,
-itemBuilder: (context, index) {
-final product = products[index];
-return Container(
-decoration: BoxDecoration(
-boxShadow: [
-BoxShadow(
-blurRadius: 4,
-color: Color(0x3600000F),
-offset: Offset(0, 2))
-],
-borderRadius: BorderRadius.circular(8),
-),
-child: Padding(
-padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 12),
-child: Column(
-mainAxisSize: MainAxisSize.max,
-children: [
-Row(
-mainAxisSize: MainAxisSize.max,
-children: [
-Expanded(
-child: ClipRRect(
-borderRadius: BorderRadius.only(
-bottomLeft: Radius.circular(0),
-bottomRight: Radius.circular(0),
-topLeft: Radius.circular(8),
-topRight: Radius.circular(8),
-),
-child: Image.network(
-product.imageLink!,
-width: 100,
-height: 100,
-fit: BoxFit.cover,
-),
-),
-),
-],
-),
-Padding(
-padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-child: Row(
-mainAxisSize: MainAxisSize.max,
-children: [
-Padding(
-padding: EdgeInsetsDirectional.fromSTEB(8, 4, 0, 0),
-child: Text(
-//product.name)
-"Nome")
-),
-],
-),
-),
-Padding(
-padding: EdgeInsetsDirectional.fromSTEB(0, 2, 0, 0),
-child: Row(
-mainAxisSize: MainAxisSize.max,
-children: [
-Padding(
-padding: EdgeInsetsDirectional.fromSTEB(8, 4, 0, 0),
-child: Text(
-//"${product.price}"
-"Prezzo"
-
-),
-),
-],
-),
-),
-],
-),
-),
-);
-},
-),*/
