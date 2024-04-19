@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'detailProdotto.dart';
 import 'productItem.dart';
 
-
 class ShowProducts extends StatelessWidget{
 
   List<Prodotto> products;
