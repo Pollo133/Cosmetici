@@ -1,4 +1,6 @@
 import 'colore.dart';
+import 'package:http/http.dart' as http;
+
 
 class Prodotto{
   int? _id;
@@ -35,6 +37,7 @@ class Prodotto{
     _name = variabile['name'] ?? '';
     //print(name);
     _imageLink= variabile['image_link'] ?? 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg';
+    checkImage();
     //print(imageLink);
     _productLink= variabile['product_link']?? '';
     //print(productLink);
