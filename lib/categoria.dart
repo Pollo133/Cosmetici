@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 class CategoryA{
   String? _linkImage;
   String? _categoryName;

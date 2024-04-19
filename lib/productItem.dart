@@ -1,7 +1,7 @@
 
-import 'package:cosmetici/prodotto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'prodotto.dart';
 
 
 class ProductItem extends StatelessWidget {

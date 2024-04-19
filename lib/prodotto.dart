@@ -115,7 +115,7 @@ class Prodotto{
   set id(int value) {
     _id = value;
   }
-  
+
   void checkImage() async {
     final url = Uri.parse(imageLink);
 
@@ -126,7 +126,6 @@ class Prodotto{
   }
 
 }
-
 
 
 

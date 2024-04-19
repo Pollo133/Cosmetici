@@ -1,10 +1,3 @@
-//prendere in input il nome del cosmetico da cercare e mandarlo alla pagina dedicata nel TextField
-//controllare perchè non carica i prodotti
-//implementare visualizzaProdotto
-// cercare di mantenere la searchBar e i filtri sempre, come un qualcosa di standard
-// controllare siti
-
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
