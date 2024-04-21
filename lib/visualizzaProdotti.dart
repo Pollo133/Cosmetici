@@ -1,3 +1,4 @@
+import 'package:cosmetici/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'detailProdotto.dart';
@@ -6,8 +7,8 @@ import 'productItem.dart';
 
 
 class ShowProducts extends StatefulWidget {
-  List<Prodotto> products;
 
+  List<Prodotto> products;
   ShowProducts({super.key, required this.products});
 
   @override
@@ -15,14 +16,16 @@ class ShowProducts extends StatefulWidget {
 }
 
 class _ShowProductsState extends State<ShowProducts> {
-  String? _selectedColor;
   String? _selectedCategory;
-  List<String> _selectedBrands = [];
-  RangeValues _currentRangeValues = const RangeValues(40, 80);
-
+  String? _selectedBrand;
+  List<String> brands = [];
+  List<Prodotto> filteredProducts = [];
 
   @override
   Widget build(BuildContext context) {
+    searchBrands();
+    if(_selectedBrand == null)
+      _selectedBrand = brands[0];
     return Scaffold(
       appBar: AppBar(
         title: const Text("Cosmetici", style: TextStyle(color: Colors.white)),
@@ -64,6 +67,7 @@ class _ShowProductsState extends State<ShowProducts> {
   }
 
   void showFilter(BuildContext context) {
+    RangeValues _currentRangeValues = const RangeValues(0, 100);
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -73,67 +77,28 @@ class _ShowProductsState extends State<ShowProducts> {
             mainAxisSize: MainAxisSize.min,
             children: [
               DropdownButton<String>(
-                hint: Text('Color'),
-                value: _selectedColor,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedColor = value!;
-                  });
-                },
-                items: [
-                  DropdownMenuItem(
-                    child: Text('None'),
-                    value: 'None',
-                  ),
-                  DropdownMenuItem(
-                    child: Text('Color1'),
-                    value: 'Color1',
-                  ),
-                  DropdownMenuItem(
-                    child: Text('Color2'),
-                    value: 'Color2',
-                  ),
-                ],
-              ),
-
-              DropdownButton<String>(
-                hint: Text('Brand'),
-                value: _selectedBrands.isNotEmpty ? _selectedBrands.first : null,
-                onChanged: (value) {
-                  setState(() {
-                    if (_selectedBrands!.contains(value!)) {
-                      _selectedBrands.remove(value);
-                    }
-                    else {
-                      _selectedBrands.add(value!);
-                    }
-                  });
-                },
-                items: [
-                  DropdownMenuItem(
-                    child: Text('None'),
-                    value: 'None',
-                  ),
-                  DropdownMenuItem(
-                    child: Text('Brand1'),
-                    value: 'Brand1',),
-                  DropdownMenuItem(
-                    child: Text('Brand2'), value: 'Brand2',),
-                  DropdownMenuItem(
-                    child: Text('Brand3'), value: 'Brand3',),
-                ],
-              ),
+              items: brands.map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value));
+              }).toList(),
+              //hint: Text(_selectedBrand!),
+              value: _selectedBrand,
+              onChanged: (value) {
+                setState(() {
+                  _selectedBrand = value;
+                });
+              }),
               SizedBox(height: 16.0),
               Text('Price', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
               RangeSlider(
                 values: _currentRangeValues,
                 min: 0,
                 max: 100,
-                divisions: 5,
+                divisions: 20,
                 labels: RangeLabels(
                   _currentRangeValues.start.round().toString(),
-                  _currentRangeValues.end.round().toString(),
-                ),
+                  _currentRangeValues.end.round().toString()),
                 onChanged: (RangeValues values) {
                   setState(() {
                     _currentRangeValues = values;
@@ -144,28 +109,29 @@ class _ShowProductsState extends State<ShowProducts> {
               SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () {
-                  List<Prodotto> filteredProducts = widget.products.where((product) {
-                    return (product.colori == _selectedColor || _selectedColor == 'None' || _selectedColor == '') &&
-                        (_selectedBrands.isEmpty || _selectedBrands.contains(product.brand)) &&
-                        product.priceParsed >= _currentRangeValues.start.toInt() &&
-                        product.priceParsed <= _currentRangeValues.end.toInt();}).toList();
-
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => ShowProducts(products: filteredProducts),
                     ),
                   );
                 },
-                child: Text('Apply'),
+                child: const Text('Apply'),
               ),
-
-
             ],
           ),
         );
       },
     );
+  }
+
+  void searchBrands(){
+    brands.removeRange(0, brands.length);
+    for(int i = 0; i < widget.products.length; i++){
+      if(!brands.contains(widget.products[i].brand ) && widget.products[i].brand.isNotEmpty){
+        brands.add(widget.products[i].brand);
+      }
+    }
   }
 
 }

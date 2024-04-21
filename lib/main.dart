@@ -203,6 +203,6 @@ class _MyHomePageState extends State<MyHomePage> {
       final productsMap = json.decode(result.body);
       products = productsMap.map<Prodotto>((var productMap) => Prodotto.fromJson(productMap)).toList();this.products = products;
       Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(products: products),),);
-    });
+      });
   }
 }
