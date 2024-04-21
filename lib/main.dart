@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'prodotto.dart';
@@ -37,8 +38,6 @@ class _MyHomePageState extends State<MyHomePage> {
   String? productType;
   List<CategoryA> categories = [];
   List<Prodotto> products = [];
-  List<String> categoriesName = [];
-
 
 
 
@@ -49,8 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(title: const Text("Cosmetici", style: TextStyle(color: Colors.white)), backgroundColor: Colors.purple,),
       body: Column(
         children: [
+          Text(""),
           TextField(
-
               decoration: InputDecoration(
                 labelText: "Cerca cosmetico",
                 hintText: "Inseriesci il nome di un cosmetico",
@@ -76,9 +75,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
               }
           ),
-          ElevatedButton(onPressed: (){allProducts();}, child: Text("Vedi tutti i prodotti del catalogo")),
-          Text(""),
-          Text("CATEGORIES", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+          const Text(""),
+          Align(
+              alignment: Alignment.centerRight,
+              child: Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+                child: TextButton(
+                  onPressed: () {allProducts();},
+                  child: Text("Mostra tutti i prodotti", style: TextStyle(fontSize: 14, decoration: TextDecoration.underline,),),),)),
+          const Text(""),
+          const Text("CATEGORIES", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
           Expanded(
             child: ListView.builder(
               itemCount: categories.length,
@@ -99,10 +104,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         border: Border.all(color: Colors.grey),
                         borderRadius: BorderRadius.circular(8.0),),
                       child: Row(children:[
-                        Image.network(categories[index].linkImage!, height: 80, width: 80,),
-                        SizedBox(width: 16),
+                        Image.network(categories[index].linkImage, height: 80, width: 80,),
+                        const SizedBox(width: 16),
                         Expanded(child:
-                        Text(categories[index].categoryName, style: TextStyle(fontSize: 20),),),
+                        Text(categories[index].categoryName, style: const TextStyle(fontSize: 20),),),
                         IconButton(
                             icon: const Icon(Icons.manage_search),
                             onPressed: () {
@@ -123,14 +128,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void textSearchName() {
     isResearchValid = true;
-
     setState(() {
       _errorResearchText = null;
 
       if(ctrResearch.text.isEmpty){
         isResearchValid = false;
         _errorResearchText = "Prodotto non valido";
-        print("Prodotto non valido");
+        if (kDebugMode) {
+          print("Prodotto non valido");
+        }
       }
       else{
         isResearchValid = true;
@@ -157,18 +163,19 @@ class _MyHomePageState extends State<MyHomePage> {
           _errorResearchText = "Prodotto non valido";
           return;
         }
-        else
+        else {
           isResearchValid= true;
+        }
         //print(result.body);
         final productsMap = json.decode(result.body);
         products = productsMap.map<Prodotto>((var productMap) => Prodotto.fromJson(productMap)).toList();
-        this.products = products;
+        products = products;
         Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(products: products),),);
       });
     });
   }
 
-  List<String> populateCategory(){
+  void populateCategory(){
     categories.removeRange(0, categories.length);
     categories.add(CategoryA("https://img.alicdn.com/imgextra/i1/6000000003078/O1CN01quuyrl1YbldlylkVM_!!6000000003078-0-tbvideo.jpg", "Blush"));
     categories.add(CategoryA("https://cdn.mos.cms.futurecdn.net/whowhatwear/posts/298134/best-bronzer-for-fair-skin-298134-1645826297301-main.jpg?interlace=true&quality=70", "Bronzer"));
@@ -180,15 +187,6 @@ class _MyHomePageState extends State<MyHomePage> {
     categories.add(CategoryA("https://keyassets-p2.timeincuk.net/wp/prod/wp-content/uploads/sites/57/2016/12/brave1.jpg", "Lipstick"));
     categories.add(CategoryA("https://i5.walmartimages.com/asr/b2efa6b2-8a2b-4f66-9ced-16bfc4673cc8.3841b4860002757967cbdac3797fb49a.jpeg", "Mascara"));
     categories.add(CategoryA("https://www.newbeauty.com/wp-content/uploads/2020/02/32710-OPI-1024x810.jpg", "Nail polish"));
-
-    categoriesName.removeRange(0, categoriesName.length);
-    for(int i = 0; i < categories.length; i++){
-      if(!categoriesName.contains(categories[i].categoryName)){
-        categoriesName.add(categories[i].categoryName);
-      }
-    }
-    //print(categories);
-    return categoriesName;
   }
 
   Future allProducts() async{
@@ -201,8 +199,8 @@ class _MyHomePageState extends State<MyHomePage> {
       _result = result.body;
       //print(result.body);
       final productsMap = json.decode(result.body);
-      products = productsMap.map<Prodotto>((var productMap) => Prodotto.fromJson(productMap)).toList();this.products = products;
+      products = productsMap.map<Prodotto>((var productMap) => Prodotto.fromJson(productMap)).toList();products = products;
       Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(products: products),),);
-    });
+      });
   }
 }
