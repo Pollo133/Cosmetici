@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart'; // aggiornare le dipendenze con url_launcher:
+import 'package:url_launcher/url_launcher.dart';
 import 'prodotto.dart';
 
 
 class ShowDetails extends StatelessWidget{
-
   Prodotto product;
   ShowDetails({super.key, required this.product});
 
@@ -85,7 +84,6 @@ class ShowDetails extends StatelessWidget{
                           Text(
                             product.name,
                             style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-                            overflow: TextOverflow.ellipsis,
                           ),
                           ElevatedButton(
                             onPressed: () {

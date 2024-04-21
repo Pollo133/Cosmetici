@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'prodotto.dart';
 
@@ -6,7 +5,7 @@ import 'prodotto.dart';
 class ProductItem extends StatelessWidget {
   final Prodotto product;
 
-  ProductItem({required this.product});
+  const ProductItem({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -25,35 +24,35 @@ class ProductItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(4.0),
             ),
           ),
-          SizedBox(height: 8.0),
+          const SizedBox(height: 8.0),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
               product.name,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16.0,
               ),
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          SizedBox(height: 4.0),
+          const SizedBox(height: 4.0),
           // Product category
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
               'Category: ${product.productType}',
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.grey,
               ),
             ),
           ),
-          SizedBox(height: 4.0),
+          const SizedBox(height: 4.0),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
               '\$${product.price}',
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.grey,
               ),
             ),

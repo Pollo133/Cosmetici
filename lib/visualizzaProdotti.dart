@@ -1,5 +1,3 @@
-import 'package:cosmetici/main.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'detailProdotto.dart';
 import 'prodotto.dart';
@@ -7,31 +5,29 @@ import 'productItem.dart';
 
 
 class ShowProducts extends StatefulWidget {
-
-  List<Prodotto> products;
-  ShowProducts({super.key, required this.products});
+  final List<Prodotto> products;
+  const ShowProducts({super.key, required this.products});
 
   @override
   _ShowProductsState createState() => _ShowProductsState();
 }
 
 class _ShowProductsState extends State<ShowProducts> {
-  String? _selectedCategory;
-  String? _selectedBrand;
   List<String> brands = [];
-  List<Prodotto> filteredProducts = [];
+  String? _selectedBrand;
+  final RangeValues _currentRangeValues = const RangeValues(0, 100);
+
 
   @override
   Widget build(BuildContext context) {
     searchBrands();
-    if(_selectedBrand == null)
-      _selectedBrand = brands[0];
+    _selectedBrand ??= brands[0];
     return Scaffold(
       appBar: AppBar(
         title: const Text("Cosmetici", style: TextStyle(color: Colors.white)),
         actions: [
           IconButton(
-            icon: Icon(Icons.filter_list),
+            icon: const Icon(Icons.filter_list),
             onPressed: () {
               showFilter(context);
             },
@@ -40,13 +36,13 @@ class _ShowProductsState extends State<ShowProducts> {
         backgroundColor: Colors.purple,
       ),
       body: GridView.builder(
-        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 200.0,
           mainAxisSpacing: 10.0,
           crossAxisSpacing: 10.0,
           childAspectRatio: 0.75,
         ),
-        padding: EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10.0),
         itemCount: widget.products.length,
         itemBuilder: (context, index) {
           return GestureDetector(
@@ -67,48 +63,36 @@ class _ShowProductsState extends State<ShowProducts> {
   }
 
   void showFilter(BuildContext context) {
-    RangeValues _currentRangeValues = const RangeValues(0, 100);
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
         return Container(
-          padding: EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(10.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              DropdownButton<String>(
-              items: brands.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value));
-              }).toList(),
-              //hint: Text(_selectedBrand!),
-              value: _selectedBrand,
-              onChanged: (value) {
-                setState(() {
-                  _selectedBrand = value;
-                });
-              }),
-              SizedBox(height: 16.0),
-              Text('Price', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
-              RangeSlider(
-                values: _currentRangeValues,
-                min: 0,
-                max: 100,
-                divisions: 20,
-                labels: RangeLabels(
-                  _currentRangeValues.start.round().toString(),
-                  _currentRangeValues.end.round().toString()),
-                onChanged: (RangeValues values) {
-                  setState(() {
-                    _currentRangeValues = values;
-                  });
-                },
+              DropdownButton(
+                  value: _selectedBrand,
+                  items: brands.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value));
+                  }).toList(),
+                  onChanged: (value){
+                    setState(() {
+                      _selectedBrand = value!;
+                    });
+                  }
               ),
+              const SizedBox(height: 16.0),
 
-              SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () {
+                  List<Prodotto> filteredProducts = widget.products.where((product) {
+                    return (_selectedBrand == null|| product.brand == _selectedBrand) &&
+                        double.parse(product.price)>= _currentRangeValues.start.toDouble() &&
+                        double.parse(product.price) <= _currentRangeValues.end.toDouble();}).toList();
+
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
@@ -124,14 +108,12 @@ class _ShowProductsState extends State<ShowProducts> {
       },
     );
   }
-
   void searchBrands(){
     brands.removeRange(0, brands.length);
     for(int i = 0; i < widget.products.length; i++){
-      if(!brands.contains(widget.products[i].brand ) && widget.products[i].brand.isNotEmpty){
+      if(!brands.contains(widget.products[i].brand) && widget.products[i].brand.isNotEmpty){
         brands.add(widget.products[i].brand);
       }
     }
   }
-
 }
