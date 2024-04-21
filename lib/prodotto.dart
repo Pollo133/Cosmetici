@@ -6,6 +6,7 @@ class Prodotto{
   int? _id;
   String? _brand;
   String? _price;
+  int? _priceParsed;
   String? _name;
   String? _imageLink;
   String? _productLink;
@@ -14,11 +15,13 @@ class Prodotto{
   String? _productType;
   List<String> _colori = [];
 
+
   Prodotto(
       this._name,
       this._id,
       this._brand,
       this._price,
+      this._priceParsed,
       this._imageLink,
       this._productLink,
       this._description,
@@ -32,7 +35,8 @@ class Prodotto{
     //print(id);
     _brand = variabile['brand'] ?? '';
     //print(brand);
-    _price= variabile['price']?? 'unavailable';
+    _price= variabile['price']?? 'unavaible';
+    _priceParsed = int.parse(_price!);
     //print(price);
     _name = variabile['name'] ?? '';
     //print(name);
@@ -53,6 +57,12 @@ class Prodotto{
     else if (variabile["product_colors"] is String) {
       _colori.add(variabile["product_colors"]);
     }
+  }
+
+  int get priceParsed => _priceParsed!;
+
+  set priceParsed(int value) {
+    _priceParsed = value;
   }
 
   String get name => _name!;

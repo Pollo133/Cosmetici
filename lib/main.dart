@@ -37,6 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String? productType;
   List<CategoryA> categories = [];
   List<Prodotto> products = [];
+  List<String> categoriesName = [];
 
 
 
@@ -75,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
               }
           ),
-          //Visibility(visible: isResearchValid, child: Text(_result),),
+          ElevatedButton(onPressed: (){allProducts();}, child: Text("Vedi tutti i prodotti del catalogo")),
           Text(""),
           Text("CATEGORIES", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
           Expanded(
@@ -167,7 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void populateCategory(){
+  List<String> populateCategory(){
     categories.removeRange(0, categories.length);
     categories.add(CategoryA("https://img.alicdn.com/imgextra/i1/6000000003078/O1CN01quuyrl1YbldlylkVM_!!6000000003078-0-tbvideo.jpg", "Blush"));
     categories.add(CategoryA("https://cdn.mos.cms.futurecdn.net/whowhatwear/posts/298134/best-bronzer-for-fair-skin-298134-1645826297301-main.jpg?interlace=true&quality=70", "Bronzer"));
@@ -179,8 +180,29 @@ class _MyHomePageState extends State<MyHomePage> {
     categories.add(CategoryA("https://keyassets-p2.timeincuk.net/wp/prod/wp-content/uploads/sites/57/2016/12/brave1.jpg", "Lipstick"));
     categories.add(CategoryA("https://i5.walmartimages.com/asr/b2efa6b2-8a2b-4f66-9ced-16bfc4673cc8.3841b4860002757967cbdac3797fb49a.jpeg", "Mascara"));
     categories.add(CategoryA("https://www.newbeauty.com/wp-content/uploads/2020/02/32710-OPI-1024x810.jpg", "Nail polish"));
-    //print(categories);
 
+    categoriesName.removeRange(0, categoriesName.length);
+    for(int i = 0; i < categories.length; i++){
+      if(!categoriesName.contains(categories[i].categoryName)){
+        categoriesName.add(categories[i].categoryName);
+      }
+    }
+    //print(categories);
+    return categoriesName;
   }
 
+  Future allProducts() async{
+
+    const dominio = 'makeup-api.herokuapp.com';
+    const percorsoFile = '/api/v1/products.json';
+    Uri uri = Uri.https(dominio, percorsoFile);
+    //print(uri);
+    http.get(uri).then((result) {
+      _result = result.body;
+      //print(result.body);
+      final productsMap = json.decode(result.body);
+      products = productsMap.map<Prodotto>((var productMap) => Prodotto.fromJson(productMap)).toList();this.products = products;
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(products: products),),);
+    });
+  }
 }

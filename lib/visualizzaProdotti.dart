@@ -4,6 +4,7 @@ import 'detailProdotto.dart';
 import 'prodotto.dart';
 import 'productItem.dart';
 
+
 class ShowProducts extends StatefulWidget {
   List<Prodotto> products;
 
@@ -17,7 +18,8 @@ class _ShowProductsState extends State<ShowProducts> {
   String? _selectedColor;
   String? _selectedCategory;
   List<String> _selectedBrands = [];
-  double _currentPrice = 10;
+  RangeValues _currentRangeValues = const RangeValues(40, 80);
+
 
   @override
   Widget build(BuildContext context) {
@@ -123,28 +125,30 @@ class _ShowProductsState extends State<ShowProducts> {
               ),
               SizedBox(height: 16.0),
               Text('Price', style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),),
-              Slider(
+              RangeSlider(
+                values: _currentRangeValues,
                 min: 0,
-                max: 50,
-                divisions: 2,
-                label: '\$${_currentPrice.toStringAsFixed(0)}',
-                onChanged: (value) {
+                max: 100,
+                divisions: 5,
+                labels: RangeLabels(
+                  _currentRangeValues.start.round().toString(),
+                  _currentRangeValues.end.round().toString(),
+                ),
+                onChanged: (RangeValues values) {
                   setState(() {
-                    _currentPrice = value;
+                    _currentRangeValues = values;
                   });
                 },
-                value: _currentPrice,
               ),
 
               SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () {
                   List<Prodotto> filteredProducts = widget.products.where((product) {
-                    return (product.colori == _selectedColor || _selectedColor == null || _selectedColor == '') &&
-                        (product.category == _selectedCategory || _selectedCategory == null || _selectedCategory == '') &&
-                        (_selectedBrands.isEmpty || _selectedBrands.contains(product.brand)) ;
-                    //&& product.price <= _currentPrice;
-                  }).toList();
+                    return (product.colori == _selectedColor || _selectedColor == 'None' || _selectedColor == '') &&
+                        (_selectedBrands.isEmpty || _selectedBrands.contains(product.brand)) &&
+                        product.priceParsed >= _currentRangeValues.start.toInt() &&
+                        product.priceParsed <= _currentRangeValues.end.toInt();}).toList();
 
                   Navigator.push(
                     context,
