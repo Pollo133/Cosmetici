@@ -12,35 +12,58 @@ class ShowDetails extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar : AppBar(title:
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(product.name, style: TextStyle(color: Colors.white),),
-          IconButton(icon: Icon(Icons.shopping_cart),
-            onPressed: () {launchUrl(product.productLink);},),],),
+      appBar: AppBar(
+        title: Text(
+          product.name,
+          style: TextStyle(color: Colors.white),
+          overflow: TextOverflow.ellipsis,
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.shopping_cart, color: Colors.white),
+            onPressed: () {
+              launchUrl(product.productLink);
+            },
+          ),
+        ],
         backgroundColor: Colors.purple,
       ),
-      body: Center(
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 60),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(child:
-              Container(
-                padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10)),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children:[
-                    SizedBox(height: 10),
-                    ClipRRect(borderRadius: BorderRadius.circular(10),
-                      child: Image.network(product.imageLink,height: MediaQuery.sizeOf(context).height * 0.4,),),
-                    if (product.colori.isNotEmpty) ...[
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: Center(
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  constraints: BoxConstraints(maxWidth: 800), // Limit max width
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 10),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          product.imageLink,
+                          height: constraints.maxHeight * 0.4,
+                        ),
+                      ),
                       SizedBox(height: 20),
-                      Text("Colors", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,),),
+                      Text(
+                        product.name,
+                        style: TextStyle(
+                          fontSize: constraints.maxHeight * 0.05,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        "Colors",
+                        style: TextStyle(
+                          fontSize: constraints.maxHeight * 0.035,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       SizedBox(height: 10),
                       Wrap(
                         spacing: 10,
@@ -48,8 +71,8 @@ class ShowDetails extends StatelessWidget{
                         children: [
                           for (int i = 0; i < product.colori.length; i++)
                             Container(
-                              height: 35,
-                              width: 35,
+                              height: 30,
+                              width: 30,
                               decoration: BoxDecoration(
                                 color: hexToColor(product.colori[i]),
                                 borderRadius: BorderRadius.circular(15),
@@ -63,67 +86,46 @@ class ShowDetails extends StatelessWidget{
                               ),
                             ),
                         ],
-                      ),],
-                    SizedBox(height: 10),
-                  ],),),
-              ),
-              SizedBox(width: 5),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 60, horizontal: 20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            product.name,
-                            style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              launchUrl(product.productLink);
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                              child: Text("Buy"),
-                            ),
-                          ),
-                        ],
                       ),
                       SizedBox(height: 20),
-                      if (product.description.isNotEmpty) ...[
-                        Text(
-                          "Description",
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      Text(
+                        "Description",
+                        style: TextStyle(
+                          fontSize: constraints.maxHeight * 0.035,
+                          fontWeight: FontWeight.bold,
                         ),
-                        SizedBox(height: 10),
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: Text(
-                              product.description,
-                              textAlign: TextAlign.justify,
-                              style: TextStyle(fontSize: 17),
-                            ),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        product.description,
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(fontSize: constraints.maxHeight * 0.03),
+                      ),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {
+                          launchUrl(product.productLink);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 15,
+                            horizontal: 30,
                           ),
+                          child: Text("Buy"),
                         ),
-                      ],
+                      ),
                     ],
                   ),
                 ),
               ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
 }
+
 
 Color hexToColor(String hexColor) {
   return Color(int.parse(hexColor.substring(1, 7), radix: 16) + 0xFF000000);

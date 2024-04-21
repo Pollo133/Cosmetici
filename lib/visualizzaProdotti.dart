@@ -4,6 +4,7 @@ import 'prodotto.dart';
 import 'productItem.dart';
 
 
+
 class ShowProducts extends StatefulWidget {
   final List<Prodotto> products;
   const ShowProducts({super.key, required this.products});
@@ -21,13 +22,12 @@ class _ShowProductsState extends State<ShowProducts> {
   @override
   Widget build(BuildContext context) {
     searchBrands();
-    _selectedBrand ??= brands[0];
     return Scaffold(
       appBar: AppBar(
         title: const Text("Cosmetici", style: TextStyle(color: Colors.white)),
         actions: [
           IconButton(
-            icon: const Icon(Icons.filter_list),
+            icon: const Icon(Icons.filter_list, color: Colors.white,),
             onPressed: () {
               showFilter(context);
             },
@@ -73,6 +73,7 @@ class _ShowProductsState extends State<ShowProducts> {
             children: [
               DropdownButton(
                   value: _selectedBrand,
+                  hint: Text("Brand"),
                   items: brands.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                         value: value,
@@ -130,5 +131,6 @@ class _ShowProductsState extends State<ShowProducts> {
         brands.add(widget.products[i].brand);
       }
     }
+    brands.sort();
   }
 }
