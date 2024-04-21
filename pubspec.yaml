@@ -43,6 +43,7 @@ dependencies:
   meta: any
   test_api: any
   vm_service: any
+  url_launcher: any
 
 dev_dependencies:
   flutter_test:

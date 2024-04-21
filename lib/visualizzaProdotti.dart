@@ -1,10 +1,8 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'detailProdotto.dart';
 import 'prodotto.dart';
 import 'productItem.dart';
-
 
 class ShowProducts extends StatefulWidget {
   List<Prodotto> products;
@@ -93,28 +91,6 @@ class _ShowProductsState extends State<ShowProducts> {
                     child: Text('Color2'),
                     value: 'Color2',
                   ),
-                ],
-              ),
-
-              DropdownButton<String>(
-                hint: Text('Category'),
-                value: _selectedCategory,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedCategory = value!;
-                  });
-                },
-                items: [
-                  DropdownMenuItem(
-                    child: Text('None'),
-                    value: 'None',
-                  ),
-                  DropdownMenuItem(
-                    child: Text('Primo'), value: 'Primo',),
-                  DropdownMenuItem(
-                    child: Text('Secondo'), value: 'Secondo',),
-                  DropdownMenuItem(
-                    child: Text('Terzo'), value: 'Terzo',),
                 ],
               ),
 
