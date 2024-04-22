@@ -52,7 +52,7 @@ class ShowDetails extends StatelessWidget{
                       Text(
                         product.name,
                         style: TextStyle(
-                          fontSize: constraints.maxHeight * 0.05,
+                          fontSize: constraints.maxHeight * 0.041,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -60,7 +60,7 @@ class ShowDetails extends StatelessWidget{
                       Text(
                         "Colors",
                         style: TextStyle(
-                          fontSize: constraints.maxHeight * 0.035,
+                          fontSize: constraints.maxHeight * 0.027,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -91,7 +91,7 @@ class ShowDetails extends StatelessWidget{
                       Text(
                         "Description",
                         style: TextStyle(
-                          fontSize: constraints.maxHeight * 0.035,
+                          fontSize: constraints.maxHeight * 0.027,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -99,7 +99,7 @@ class ShowDetails extends StatelessWidget{
                       Text(
                         product.description,
                         textAlign: TextAlign.justify,
-                        style: TextStyle(fontSize: constraints.maxHeight * 0.03),
+                        style: TextStyle(fontSize: constraints.maxHeight * 0.022),
                       ),
                       SizedBox(height: 20),
                       ElevatedButton(
