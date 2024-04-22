@@ -15,19 +15,18 @@ class ShowProducts extends StatefulWidget {
 class _ShowProductsState extends State<ShowProducts> {
   List<String> brands = [];
   String? _selectedBrand;
-  final RangeValues _currentRangeValues = const RangeValues(0, 100);
+  RangeValues _currentRangeValues = const RangeValues(10, 70);
 
 
   @override
   Widget build(BuildContext context) {
     searchBrands();
-    _selectedBrand ??= brands[0];
     return Scaffold(
       appBar: AppBar(
         title: const Text("Cosmetici", style: TextStyle(color: Colors.white)),
         actions: [
           IconButton(
-            icon: const Icon(Icons.filter_list),
+            icon: const Icon(Icons.filter_list, color: Colors.white,),
             onPressed: () {
               showFilter(context);
             },
@@ -73,6 +72,7 @@ class _ShowProductsState extends State<ShowProducts> {
             children: [
               DropdownButton(
                   value: _selectedBrand,
+                  hint: const Text("Brand"),
                   items: brands.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                         value: value,
@@ -84,6 +84,21 @@ class _ShowProductsState extends State<ShowProducts> {
                     });
                   }
               ),
+              RangeSlider(
+                values: _currentRangeValues,
+                min: 0,
+                max: 100,
+                divisions: 20,
+                labels: RangeLabels(
+                  _currentRangeValues.start.round().toString(),
+                  _currentRangeValues.end.round().toString(),
+                ),
+                onChanged: (RangeValues values) {
+                  setState(() {
+                    _currentRangeValues = values;
+                  });
+                },
+              ),
               const SizedBox(height: 16.0),
 
               ElevatedButton(
@@ -93,13 +108,28 @@ class _ShowProductsState extends State<ShowProducts> {
                         double.parse(product.price)>= _currentRangeValues.start.toDouble() &&
                         double.parse(product.price) <= _currentRangeValues.end.toDouble();}).toList();
 
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ShowProducts(products: filteredProducts),
-                    ),
-                  );
-                },
+                  if (filteredProducts.isEmpty) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Scaffold(
+                          appBar: AppBar(
+                            backgroundColor: Colors.purple,),
+                          body: const Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.warning, size: 30,),
+                                Text("Nessun prodotto disponibile", style: TextStyle(fontSize: 30),),],
+                            ),),),),);}
+                  else {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ShowProducts(products: filteredProducts),
+                      ),
+                    );
+                  }},
                 child: const Text('Apply'),
               ),
             ],
@@ -115,5 +145,6 @@ class _ShowProductsState extends State<ShowProducts> {
         brands.add(widget.products[i].brand);
       }
     }
+    brands.sort();
   }
 }

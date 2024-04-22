@@ -1,14 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'prodotto.dart';
 
 
 class ProductItem extends StatelessWidget {
   final Prodotto product;
-
-  const ProductItem({super.key, required this.product});
+  ProductItem({required this.product});
 
   @override
   Widget build(BuildContext context) {
+    NetworkImage image = NetworkImage(product.imageLink);
     return Card(
       elevation: 5.0,
       child: Column(
@@ -18,7 +19,7 @@ class ProductItem extends StatelessWidget {
             height: 150.0,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(product.imageLink),
+                image: image,
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.circular(4.0),

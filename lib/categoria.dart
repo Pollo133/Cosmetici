@@ -22,5 +22,4 @@ class CategoryA{
   String toString() {
     return 'Categoria{_linkImage: $_linkImage, _categoryName: $_categoryName}';
   }
-
 }
