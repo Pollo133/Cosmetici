@@ -12,8 +12,7 @@ class ShowDetails extends StatelessWidget{
     NetworkImage image = NetworkImage(product.imageLink);
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          product.name,
+        title: Text(product.name,
           style: const TextStyle(color: Colors.white),
           overflow: TextOverflow.ellipsis,
         ),
@@ -47,14 +46,13 @@ class ShowDetails extends StatelessWidget{
                         ),
                         const SizedBox(height: 20),
                         Text(
-                          product.name,
+                          "${product.name} - ${product.brand}",
                           style: TextStyle(
                             fontSize: constraints.maxHeight * 0.041,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         const SizedBox(height: 10),
-
                         if (product.colori.isNotEmpty) ...[
                           Text(
                             "Colors",

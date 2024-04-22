@@ -37,7 +37,7 @@ class Prodotto{
     //print(brand);
     _price= variabile['price']?? 'unavaible';
     //print(price);
-    _name = variabile['name'] ?? '';
+    _name = variabile['name'].trim() ?? '';
     //print(name);
     _imageLink= variabile['image_link'] ?? 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg';
     checkImage();
