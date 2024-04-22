@@ -121,7 +121,11 @@ class Prodotto{
     final url = Uri.parse(imageLink);
 
     http.Response response = await http.get(url);
-    if (response.statusCode != 200) {
+    try {
+      if (response.statusCode != 200) {
+        _imageLink = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg";
+      }
+    } catch (e) {
       _imageLink = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg";
     }
   }
