@@ -4,7 +4,6 @@ import 'prodotto.dart';
 import 'productItem.dart';
 
 
-
 class ShowProducts extends StatefulWidget {
   final List<Prodotto> products;
   const ShowProducts({super.key, required this.products});
@@ -73,7 +72,7 @@ class _ShowProductsState extends State<ShowProducts> {
             children: [
               DropdownButton(
                   value: _selectedBrand,
-                  hint: Text("Brand"),
+                  hint: const Text("Brand"),
                   items: brands.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                         value: value,
@@ -109,13 +108,29 @@ class _ShowProductsState extends State<ShowProducts> {
                         double.parse(product.price)>= _currentRangeValues.start.toDouble() &&
                         double.parse(product.price) <= _currentRangeValues.end.toDouble();}).toList();
 
+                  if (filteredProducts.isEmpty) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Scaffold(
+                          appBar: AppBar(
+                            //title: Text("Nessun prodotto disponibile", style: TextStyle(color: Colors.white)),
+                            backgroundColor: Colors.purple,),
+                          body: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.warning),
+                                Text("Nessun prodotto disponibile"),],
+                            ),),),),);}
+                  else {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => ShowProducts(products: filteredProducts),
                     ),
                   );
-                },
+                }},
                 child: const Text('Apply'),
               ),
             ],

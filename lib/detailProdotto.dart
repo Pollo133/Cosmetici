@@ -65,6 +65,7 @@ class ShowDetails extends StatelessWidget{
                         ),
                       ),
                       SizedBox(height: 10),
+                    if (product.colori.isNotEmpty) ...[
                       Wrap(
                         spacing: 10,
                         runSpacing: 15,
@@ -86,8 +87,9 @@ class ShowDetails extends StatelessWidget{
                               ),
                             ),
                         ],
-                      ),
+                      )],
                       SizedBox(height: 20),
+                    if (product.description.isNotEmpty) ...[
                       Text(
                         "Description",
                         style: TextStyle(
@@ -100,7 +102,7 @@ class ShowDetails extends StatelessWidget{
                         product.description,
                         textAlign: TextAlign.justify,
                         style: TextStyle(fontSize: constraints.maxHeight * 0.022),
-                      ),
+                      ),],
                       SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () {
@@ -114,8 +116,8 @@ class ShowDetails extends StatelessWidget{
                           child: Text("Buy"),
                         ),
                       ),
-                    ],
-                  ),
+
+                  ]),
                 ),
               ),
             ),
