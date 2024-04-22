@@ -1,13 +1,12 @@
-import 'dart:ui';
-import 'package:flutter/foundation.dart';
+import 'colore.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 
 
 class Prodotto{
   int? _id;
   String? _brand;
   String? _price;
+  int? _priceParsed;
   String? _name;
   String? _imageLink;
   String? _productLink;
@@ -22,6 +21,7 @@ class Prodotto{
       this._id,
       this._brand,
       this._price,
+      this._priceParsed,
       this._imageLink,
       this._productLink,
       this._description,
@@ -36,6 +36,7 @@ class Prodotto{
     _brand = variabile['brand'] ?? '';
     //print(brand);
     _price= variabile['price']?? 'unavaible';
+    _priceParsed = int.parse(_price!);
     //print(price);
     _name = variabile['name'] ?? '';
     //print(name);
@@ -58,6 +59,11 @@ class Prodotto{
     }
   }
 
+  int get priceParsed => _priceParsed!;
+
+  set priceParsed(int value) {
+    _priceParsed = value;
+  }
 
   String get name => _name!;
 
@@ -119,16 +125,18 @@ class Prodotto{
   set id(int value) {
     _id = value;
   }
+
   void checkImage() async {
     final url = Uri.parse(imageLink);
-    http.Response response = await http.get(url);
 
-    try {
-      if (response.statusCode != 200) {
-        _imageLink = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg";
-      }
-    } on ClientException{
+    http.Response response = await http.get(url);
+    if (response.statusCode != 200) {
       _imageLink = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg";
     }
   }
+
 }
+
+
+
+
