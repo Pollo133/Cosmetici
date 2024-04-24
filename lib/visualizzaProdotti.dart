@@ -45,16 +45,17 @@ class _ShowProductsState extends State<ShowProducts> {
         itemCount: widget.products.length,
         itemBuilder: (context, index) {
           return GestureDetector(
+            child: ProductItem(
+              product: widget.products[index],
+            ),
             onTap: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          ShowDetails(product: widget.products[index])));
+                      builder: (context) => ShowDetails(product: widget.products[index])
+                  )
+              );
             },
-            child: ProductItem(
-              product: widget.products[index],
-            ),
           );
         },
       ),

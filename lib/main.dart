@@ -64,15 +64,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 textSearchName();
               }
           ),
-          SizedBox(height: 15,),
-          Text("CATEGORIES", style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
-          SizedBox(height: 10),
+          const SizedBox(height: 15,),
+          const Text("CATEGORIES", style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 10),
           Align(alignment: Alignment.center,
-              child: Padding(padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Padding(padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: ElevatedButton(
                     onPressed: () {allProducts();},
-                    child: Text("Mostra tutti i prodotti", style: TextStyle(fontSize: 14, color: Colors.black ),),))),
-          SizedBox(height: 15,),
+                    child: const Text("Mostra tutti i prodotti", style: TextStyle(fontSize: 14, color: Colors.black ),),))),
+          const SizedBox(height: 15,),
           Expanded(
             child: ListView.builder(
               itemCount: categories.length,
@@ -91,10 +91,10 @@ class _MyHomePageState extends State<MyHomePage> {
                         border: Border.all(color: Colors.grey),
                         borderRadius: BorderRadius.circular(8.0),),
                       child: Row(children:[
-                        Image.network(categories[index].linkImage!, height: 80, width: 80,),
-                        SizedBox(width: 16),
+                        Image.network(categories[index].linkImage, height: 80, width: 80,),
+                        const SizedBox(width: 16),
                         Expanded(child:
-                        Text(categories[index].categoryName, style: TextStyle(fontSize: 20),),),
+                        Text(categories[index].categoryName, style: const TextStyle(fontSize: 20),),),
                         IconButton(
                            icon: const Icon(Icons.manage_search),
                             onPressed: () {
