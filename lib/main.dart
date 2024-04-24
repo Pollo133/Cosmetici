@@ -96,22 +96,23 @@ class _MyHomePageState extends State<MyHomePage> {
                         Expanded(child:
                         Text(categories[index].categoryName, style: TextStyle(fontSize: 20),),),
                         IconButton(
-                            icon: const Icon(Icons.manage_search),
+                           icon: const Icon(Icons.manage_search),
                             onPressed: () {
                               productType = categories[index].categoryName.toLowerCase();
                               findProductctr();
                               //Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(products: products)));
                             }
                         )
-                      ],),
-                    ));
+                      ],
+                      ),
+                    )
+                );
               },
             ),
           ),
         ],
       ),
     );
-
   }
 
 
@@ -151,12 +152,12 @@ class _MyHomePageState extends State<MyHomePage> {
           _errorResearchText = "Prodotto non valido";
           return;
         }
-        else
+        else {
           isResearchValid= true;
+        }
         //print(result.body);
         final productsMap = json.decode(result.body);
         products = productsMap.map<Prodotto>((var productMap) => Prodotto.fromJson(productMap)).toList();
-        this.products = products;
         Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(products: products),),);
       });
     });
@@ -195,7 +196,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _result = result.body;
       //print(result.body);
       final productsMap = json.decode(result.body);
-      products = productsMap.map<Prodotto>((var productMap) => Prodotto.fromJson(productMap)).toList();this.products = products;
+      products = productsMap.map<Prodotto>((var productMap) => Prodotto.fromJson(productMap)).toList();
       Navigator.push(context, MaterialPageRoute(builder: (context) => ShowProducts(products: products),),);
     });
   }

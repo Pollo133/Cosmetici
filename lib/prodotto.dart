@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -127,7 +128,7 @@ class Prodotto{
       if (response.statusCode != 200) {
         _imageLink = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg";
       }
-    } on ClientException{
+    } on SocketException{
       _imageLink = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg";
     }
   }
