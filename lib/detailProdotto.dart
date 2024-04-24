@@ -39,10 +39,9 @@ class ShowDetails extends StatelessWidget{
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 10),
-                        ClipRRect(
+                        ClipRRect( //per fare il contaner con i bordi arrotondati
                           borderRadius: BorderRadius.circular(10),
-                          child:
-                          Image(image: image, height: constraints.maxHeight * 0.4,),
+                          child: Image(image: image, height: constraints.maxHeight * 0.4,),
                         ),
                         const SizedBox(height: 20),
                         Text(

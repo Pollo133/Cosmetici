@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'prodotto.dart';
 
-
 class ProductItem extends StatelessWidget {
   final Prodotto product;
-  ProductItem({required this.product});
+  const ProductItem({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +18,7 @@ class ProductItem extends StatelessWidget {
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: image,
-                fit: BoxFit.cover,
+                fit: BoxFit.cover, // più piccolo che può
               ),
               borderRadius: BorderRadius.circular(4.0),
             ),

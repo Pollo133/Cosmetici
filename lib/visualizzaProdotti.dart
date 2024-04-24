@@ -37,8 +37,8 @@ class _ShowProductsState extends State<ShowProducts> {
       body: GridView.builder(
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 200.0,
-          mainAxisSpacing: 10.0,
-          crossAxisSpacing: 10.0,
+          mainAxisSpacing: 10.0, // numero di pixel tra i figli
+          crossAxisSpacing: 10.0, //stessa cosa sottoxx
           childAspectRatio: 0.75,
         ),
         padding: const EdgeInsets.all(10.0),

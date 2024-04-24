@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
-import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
@@ -121,8 +119,8 @@ class Prodotto{
     _id = value;
   }
   void checkImage() async {
-    final url = Uri.parse(imageLink);
-    http.Response response = await http.get(url);
+    Uri uri = Uri.parse(imageLink);
+    http.Response response = await http.get(uri);
 
     try {
       if (response.statusCode != 200) {
